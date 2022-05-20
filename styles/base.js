@@ -1,10 +1,17 @@
 export const titleTextColour = {
-    color: "#fff",
+    color: "white",
 };
 
 export const container = {
     flex: 1,
-    // backgroundColor: '#000',
+    backgroundColor: 'black',
+    color: "white"
+};
+
+export const contentBox = {
+    paddingLeft: 15,
+    paddingRight: 20,
+    paddingTop: 12,
 };
 
 export const button = {
@@ -14,7 +21,7 @@ export const button = {
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'green',
+    backgroundColor: '#30AA3B',
     color: 'white',
     marginHorizontal: '5%',
     marginTop: 20,
@@ -22,11 +29,17 @@ export const button = {
 };
 
 export const bottomNavBar = {
-    backgroundColor: '#006400',
+    backgroundColor: '#1F1F1F',
     height: 65,
-    paddingTop: 8, 
+    // paddingTop: 8, 
+    marginBottom: 20,
 };
 
 export const topNavBar = {
-    backgroundColor: '#006400',
+    backgroundColor: 'white',
 };
+
+export const timeCell = {
+    flex: 2,
+    flexDirection: 'column'
+}

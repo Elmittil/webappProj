@@ -2,8 +2,10 @@ export const header1 = {
     // fontFamily: 'Zurich-Bold',
     fontSize: 42,
     marginBottom: 28,
-    color: "#fff",
 };
+export const white = {
+    color: "white",
+}
 
 export const header2 = {
     // fontFamily: 'Zurich-Bold',
@@ -12,15 +14,16 @@ export const header2 = {
 };
 
 export const header3 = {
-    // fontFamily: 'Zurich-Bold',
-    fontSize: 28,
-    marginBottom: 34,
+    fontFamily: 'Lato-Regular',
+    fontSize: 22,
+    // marginBottom: 10,
+    // marginTop: 50,
 };
 
 export const header4 = {
     // fontFamily: 'Zurich-Bold',
-    fontSize: 24,
-    marginBottom: 14,
+    fontSize: 18,
+    // marginBottom: ,14
 };
 
 export const normal = {
@@ -30,24 +33,34 @@ export const normal = {
 };
 
 export const list = {
-    // fontFamily: 'Zurich-Regular',
+    fontFamily: 'Lato-Light',
     fontSize: 18,
     marginBottom: 14,
-    color: "#000"
+    marginTop: 10,
 };
 
 export const listFine = {
-    // fontFamily: 'Zurich-Regular',
+    fontFamily: 'Lato-Light',
     fontSize: 16,
     marginBottom: 4, 
+    
 };
 
 export const center = {
     textAlign: 'center',
 };
 
+export const alignLeft = {
+    textAlign: 'auto',
+
+};
+
 export const spaceTop = {
-    marginTop: 14,
+    marginTop: 25,
+};
+
+export const doubleSpaceTop = {
+    marginTop: 50,
 };
 
 export const spaceBottom = {
@@ -68,4 +81,28 @@ export const tablePrice = {
 };
 export const tableName = {
     width: 200,
+};
+
+export const divider = {
+    backgroundColor: "#323232",
+}
+
+export const mainTableRow = {
+    height: 20,
+};
+export const secondTableRow = {
+    height: 45,
+    padding: 0,
+    marginvertical: 0,
+};
+
+export const crossedOut = {
+    textDecorationLine: 'line-through',
+    paddingHorizontal: 0,
+    color: "gray,"
+};
+
+export const timeTableHeader = {
+    flex: 1, 
+    textAlign: 'right'
 };
