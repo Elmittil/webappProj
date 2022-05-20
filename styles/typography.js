@@ -35,8 +35,8 @@ export const normal = {
 export const list = {
     fontFamily: 'Lato-Light',
     fontSize: 18,
-    marginBottom: 14,
-    marginTop: 10,
+    marginBottom: 22,
+    color: 'gray',
 };
 
 export const listFine = {
@@ -99,10 +99,15 @@ export const secondTableRow = {
 export const crossedOut = {
     textDecorationLine: 'line-through',
     paddingHorizontal: 0,
-    color: "gray,"
+    color: 'gray',
 };
 
 export const timeTableHeader = {
     flex: 1, 
     textAlign: 'right'
+};
+
+export const mapButtonText = {
+    color: 'gray',
+    flex: 3
 };

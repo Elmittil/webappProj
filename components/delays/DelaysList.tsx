@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Base, Typography } from '../../styles';
 import delaysModel from "../../models/delays";
 import { DataTable } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 let stationName = "Delays";
@@ -44,7 +46,7 @@ export default function DelaysList({ route, navigation }) {
         return (<View>
             <DataTable.Row key={index}>
                 <DataTable.Cell numeric style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>
-                        <Text style={Typography.crossedOut}>{formatDate(delay.AdvertisedTimeAtLocation)}</Text>
+                    <Text style={Typography.crossedOut}>{formatDate(delay.AdvertisedTimeAtLocation)}</Text>
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 5 }} textStyle={[Typography.header4, Typography.center, Typography.white]}>{stationName}</DataTable.Cell>
             </DataTable.Row>
@@ -69,9 +71,21 @@ export default function DelaysList({ route, navigation }) {
                 >{station.AdvertisedLocationName}</Text>
                 <Pressable></Pressable>
             </View>
+            <Pressable style={Base.mapButton}
+                onPress={() => {
+                    navigation.navigate("Map", {
+                        delays: delays,
+                        stationName: station.AdvertisedLocationName
+                    });
+                }}
+                accessibilityLabel={`Press to show a map of delay to this station`}>
+
+                    <Text style={Typography.mapButtonText}>Show on a map</Text><Ionicons name="map-outline" size={12} color='gray' />
+
+            </Pressable>
             <DataTable style={{ padding: 0 }}>
                 <DataTable.Header >
-                    <DataTable.Title style={ Typography.timeTableHeader } textStyle={[Typography.tablePrice, Typography.white]}>Time</DataTable.Title>
+                    <DataTable.Title style={Typography.timeTableHeader} textStyle={[Typography.tablePrice, Typography.white]}>Time</DataTable.Title>
                     <DataTable.Title style={{ flex: 3 }} textStyle={[Typography.tablePrice, Typography.white]}>From</DataTable.Title>
                     <DataTable.Title style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>Track</DataTable.Title>
                     <DataTable.Title style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>Train</DataTable.Title>

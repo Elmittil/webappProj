@@ -2,6 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Stations from './StationsList';
 import DelaysList from './DelaysList';
+import Map from '../map/Map';
+
 import { Base, Typography } from '../../styles';
 
 
@@ -28,8 +30,14 @@ export default function DelaysStack({ isLoggedIn, stations, setStations }) {
 			headerStyle: { backgroundColor: "black"},
 			headerTitleStyle: {color: "white"}}}
 			component={DelaysList} />
-			{/* {() => <DelaysList station={station} />}
-            </Stack.Screen> */}
+			<Stack.Screen name="Map"
+			options={{ headerTitle: "",
+			headerTitleAlign: "center",
+			headerTintColor: "white",
+			headerStyle: { backgroundColor: "black"},
+			headerTitleStyle: {color: "white"}}}>
+				{(screenProps) => <Map {...screenProps} isLoggedIn={isLoggedIn} stations={stations} setStations={setStations} />}
+			</Stack.Screen>
 		</Stack.Navigator>
 	);
 }

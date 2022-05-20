@@ -28,6 +28,19 @@ export const button = {
     marginBottom: 10,
 };
 
+export const mapButton = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 22,
+    borderRadius: 4,
+    // elevation: 3,
+    backgroundColor: '#1F1F1F',
+    marginHorizontal: '15%',
+    marginTop: 20,
+    marginBottom: 10,
+};
+
 export const bottomNavBar = {
     backgroundColor: '#1F1F1F',
     height: 65,
@@ -40,6 +53,4 @@ export const topNavBar = {
 };
 
 export const timeCell = {
-    flex: 2,
-    flexDirection: 'column'
 }

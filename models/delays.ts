@@ -57,7 +57,11 @@ const delays = {
             stationsAndCOdesDict[station.LocationSignature] = station.AdvertisedLocationName;
         });
         return stationsAndCOdesDict;
+    },
+    getStationsCoordinates: async function getStationsCoordinates(stations) {
+        
     }
+
 };
 
 async function getDelayedToStationCodes() {
@@ -65,8 +69,6 @@ async function getDelayedToStationCodes() {
     let stationCodes = [];
     delays.forEach(delay => {
         try {
-            // console.log("delay in get station codes");
-            // console.log(delay.ToLocation[0].LocationName);
             stationCodes.push(delay.ToLocation[0].LocationName);
 
         } catch (e) {
@@ -75,8 +77,6 @@ async function getDelayedToStationCodes() {
             console.log("missing delay");
         }
     });
-    // console.log("station codes");
-    // console.log(stationCodes);
     return stationCodes;
 }
 
