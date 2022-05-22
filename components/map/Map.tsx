@@ -34,14 +34,6 @@ export default function DelaysMap({ route }) {
         (async () => {
             try {
                 delays.forEach(async (delay) => {
-                    // let stationInfo = await delaysModel.getStationInfo(delay.FromLocation[0].LocationName);
-                    // console.log(stationInfo);
-                    // let stationInfo = {
-                    //     "latitude": 59.12303313879594,
-                    //     "longitude":18.103366450191004,
-                    //     "stationName": "Västerhaginge",
-                    // };
-                    // if (stationInfo) {
                         console.log(delay);
                         let marker = <Marker
                             coordinate={{ latitude: delay.latitude, longitude: delay.longitude }}
@@ -81,35 +73,6 @@ export default function DelaysMap({ route }) {
             setMarkers(state => [...state, locationMarker]);
         })();
     }, []);
-
-    //  return a text element for each ["name", "address", "city", "zip", "country"]
-    // of the order object
-    // const stationDetails = _.map(delays, (delay, key) => {
-    //     let stationName = stationsDict[delay.FromLocation[0].LocationName]
-    //     let textStyle = Typography.listFine;
-    //     if (key === "name") {
-    //         textStyle = Typography.header4;
-    //     }
-    //     if (["name", "address", "city", "zip", "country"].includes(key)) {
-    //         return (<Text
-    //             style={textStyle}
-    //             key={key}>
-    //             {stationName + " ETA: " + formatDate(delay.EstimatedTimeAtLocation)}
-    //         </Text>
-    //         );
-    //     }
-    // });
-
-    // async function fitMapToMarkers() {
-    //     await mapRef.current.fitToCoordinates(markers, {
-    //         edgePadding: {
-    //             top: 40,
-    //             right: 20,
-    //             bottom: 30,
-    //             left: 20,
-    //         },
-    //     });
-    // }
 
     return (
         <View style={[Base.container]}>

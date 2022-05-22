@@ -9,7 +9,7 @@ import { Base, Typography } from '../../styles';
 
 const Stack = createNativeStackNavigator();
 
-export default function DelaysStack({ isLoggedIn, stations, setStations }) {
+export default function DelaysStack({ isLoggedIn, stations, setStations, delays, setDelays }) {
 	return (
 		<Stack.Navigator initialRouteName="List"
 		options={{headerBackTitleVisible: false}}
@@ -20,7 +20,7 @@ export default function DelaysStack({ isLoggedIn, stations, setStations }) {
 			headerTintColor: "white",
 			headerStyle: { backgroundColor: "black"},
 			headerTitleStyle: {color: "white"}}}>
-				{(screenProps) => <Stations {...screenProps} isLoggedIn={isLoggedIn} stations={stations} setStations={setStations} />}
+				{(screenProps) => <Stations {...screenProps} isLoggedIn={isLoggedIn} stations={stations} setStations={setStations} delays={delays} setDelays={setDelays} />}
 			</Stack.Screen>
 			<Stack.Screen name="Delays"
 			options={{ headerTitle: "Stations",

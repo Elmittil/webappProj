@@ -4,10 +4,9 @@ import config from "../config/config.json";
 
 
 const delays = {
-    getStations: async function getStations() {
+    getStations: function getStations(allStations, allDelays) {
         try {
-            let allStations = await fetchStations();
-            let stationCodesWithDelays = await getDelayedToStationCodes();
+            let stationCodesWithDelays = getDelayedToStationCodes(allDelays);
             let stationsWithDelays = [];
             allStations.forEach(station => {
                 // console.log(stationCodesWithDelays.includes(station.LocationSignature));
@@ -26,14 +25,13 @@ const delays = {
             }
         }
     },
-    getDelays: async function getDelays(toStationCode) {
+    getDelays: function getDelays(toStationCode, allStations, allDelays) {
         try {
             let delaysForStation = [];
-            let delaysList = await fetchDelays();
-            delaysList.forEach(async delay => {
+            allDelays.forEach(delay => {
                 try {
                     if (delay.ToLocation && delay.ToLocation[0].LocationName == toStationCode) {
-                        let stationInfo = await getStationInfo(delay.FromLocation[0].LocationName);
+                        let stationInfo = getStationInfo(delay.FromLocation[0].LocationName, allStations);
                         delay["stationName"] = stationInfo.stationName;
                         delay["longitude"] = stationInfo.longitude;
                         delay["latitude"] = stationInfo.latitude;
@@ -53,10 +51,9 @@ const delays = {
             }
         }
     },
-    makeStationsDictionary: async function makeStationsDictionary() {
-        const STATIONS = await fetchStations();
+    makeStationsDictionary: function makeStationsDictionary(allStations) {
         let stationsAndCOdesDict = {};
-        STATIONS.forEach(station => {
+        allStations.forEach(station => {
             stationsAndCOdesDict[station.LocationSignature] = station.AdvertisedLocationName;
         });
         return stationsAndCOdesDict;
@@ -64,71 +61,32 @@ const delays = {
     
 };
 
-async function getDelayedToStationCodes() {
-    let delays = await fetchDelays();
-    let stationCodes = delays.map(delay =>{
+function getDelayedToStationCodes(allDelays) {
+    let stationCodes = allDelays.map(delay =>{
         if(delay.ToLocation) {
             return delay.ToLocation[0].LocationName;
         }
     });
-    // delays.forEach(delay => {
-    //     try {
-    //         stationCodes.push(delay.ToLocation[0].LocationName);
-    //     } catch (e) {
-    //         e;
-    //         console.log(e.message);
-    //         console.log("missing delay");
-    //     }
-    // });
     return stationCodes;
 }
 
-async function fetchDelays() {
-    let delaysReq = await fetch(`${config.base_url}/delayed`);
-    let delaysRes = await delaysReq.json();
-    return delaysRes.data;
-}
+function getStationInfo(stationCode, allStations) {
 
-async function fetchStations() {
-    const response = await fetch(`${config.base_url}/stations`, {
-        method: 'GET'
-    });
-    const result = await response.json();
-    return result.data;
-}
-async function getStationInfo(stationCode): Promise<any> {
-    let result = null;
-    let stations = await fetchStations();
-    result = stations.map(station => {
+    let foundStation = null;
+    allStations.every(station => {
         if (station.LocationSignature == stationCode) {
             let coordinatesInfo = station.Geometry.WGS84;
-            console.log("coordinatesInfo"); 
-            console.log(coordinatesInfo);
             let longitudeStart = coordinatesInfo.indexOf("(");
             let latitudeStart = coordinatesInfo.indexOf(" ", longitudeStart);
-            result = { 
+            foundStation = { 
                 "longitude": parseFloat(coordinatesInfo.substring(longitudeStart+1, latitudeStart)),
                 "latitude": parseFloat(coordinatesInfo.substring(latitudeStart+1, coordinatesInfo.length-1)), 
                 "stationName": station.AdvertisedLocationName,
             };
-        }
+            return false;
+        }; return true;
     });
-    return result;
-    // stations.forEach(station => {
-    //     if (station.LocationSignature == stationCode) {
-    //         let coordinatesInfo = station.Geometry.WGS84;
-    //         console.log("coordinatesInfo"); 
-    //         console.log(coordinatesInfo);
-    //         let longitudeStart = coordinatesInfo.indexOf("(");
-    //         let latitudeStart = coordinatesInfo.indexOf(" ", longitudeStart);
-    //         result = { 
-    //             "longitude": parseFloat(coordinatesInfo.substring(longitudeStart+1, latitudeStart)),
-    //             "latitude": parseFloat(coordinatesInfo.substring(latitudeStart+1, coordinatesInfo.length-1)), 
-    //             "stationName": station.AdvertisedLocationName,
-    //         };
-    //         return result;
-    //     };
-    // });
+    return foundStation;
 }
 
 export default delays;

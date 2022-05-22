@@ -1,26 +1,34 @@
 import { useEffect } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import delaysModel from "../../models/delays";
+import apiDataModel from "../../models/apiData";
+
 import { Base, Typography } from '../../styles';
 import { Divider } from 'react-native-paper';
 
 
-export default function Stations({ route, navigation, isLoggedIn, stations, setStations }) {
+export default function Stations({ route, navigation, isLoggedIn, stations, setStations, delays, setDelays }) {
 
     useEffect(() => {
         (async () => {
-            setStations(await delaysModel.getStations());
+            setStations(await apiDataModel.fetchStations());
+            setDelays(await apiDataModel.fetchDelays());
         })();
     }, []);
 
-    const list = stations.map((station, index) => {
+    let stationsWithDelays = delaysModel.getStations(stations, delays);
+
+    const list = stationsWithDelays.map((station, index) => {
+        let delaysForThisStation = delaysModel.getDelays(station.LocationSignature, stations, delays);
         return <View>
             <Pressable
                 title={station.LocationSignature}
                 key={index}
                 onPress={() => {
                     navigation.navigate('Delays', {
-                        station: station
+                        station: station, 
+                        stations: stations,
+                        delaysForThisStation: delaysForThisStation
                     });
                 }}
             >

@@ -24,6 +24,7 @@ export default function App() {
 
     const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
     const [stations, setStations] = useState([]);
+    const [delays, setDelays] = useState([]);
 
     const routeIcons = {
         "Trafic Info": "train-outline",
@@ -68,7 +69,12 @@ export default function App() {
                         })}
                     >
                         <Tab.Screen name="Trafic Info">
-                            {() => <DelaysStack isLoggedIn={isLoggedIn} stations={stations} setStations={setStations}/>}
+                            {() => <DelaysStack 
+                            isLoggedIn={isLoggedIn} 
+                            stations={stations} 
+                            setStations={setStations} 
+                            delays={delays}
+                            setDelays={setDelays}/>}
                         </Tab.Screen>
                         {/* if logged in show invoices, otherwise show log in */}
                         {isLoggedIn ?

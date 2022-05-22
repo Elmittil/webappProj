@@ -11,34 +11,19 @@ import { formatDate } from '../helpers/formatters';
 let stationName = "Delays";
 
 export default function DelaysList({ route, navigation }) {
-    const { station } = route.params;
+    const { station, stations, delaysForThisStation } = route.params;
     const { reload } = route.params || false;
     const [stationsDict, setStationsDict] = useState({});
 
-    const [delays, setDelays] = useState([]);
     stationName = station.AdvertisedLocationName;
-    if (reload) {
-        reloadDelays();
-    };
 
-    useEffect(() => {
-        reloadDelays();
-    }, []);
-
-    async function reloadDelays() {
-        setDelays(await delaysModel.getDelays(station.LocationSignature));
-        setStationsDict(await delaysModel.makeStationsDictionary());
-    };
-
-    const delaysRows = delays.map((delay, index) => {
-        let stationName = stationsDict[delay.FromLocation[0].LocationName]
-        // let stationName = delay.stationName;
+    const delaysRows = delaysForThisStation.map((delay, index) => {
         return (<View>
             <DataTable.Row key={index+400}>
                 <DataTable.Cell  style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>
                     <Text style={Typography.crossedOut}>{formatDate(delay.AdvertisedTimeAtLocation)}</Text>
                 </DataTable.Cell>
-                <DataTable.Cell style={{ flex: 5 }} textStyle={[Typography.header4, Typography.center, Typography.white]}>{stationName}</DataTable.Cell>
+                <DataTable.Cell style={{ flex: 5 }} textStyle={[Typography.header4, Typography.center, Typography.white]}>{delay.stationName}</DataTable.Cell>
             </DataTable.Row>
 
             <DataTable.Row key={index + 100} >
@@ -64,7 +49,7 @@ export default function DelaysList({ route, navigation }) {
             <Pressable style={Base.mapButton}
                 onPress={() => {
                     navigation.navigate("Map", {
-                        delays: delays,
+                        delays: delaysForThisStation,
                         stationName: station.AdvertisedLocationName, 
                         stationsDict: stationsDict,
                     });
