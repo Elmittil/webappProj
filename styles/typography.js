@@ -27,7 +27,6 @@ export const header4 = {
 };
 
 export const normal = {
-    // fontFamily: 'Zurich-Regular',
     fontSize: 20,
     marginBottom: 28,
 };
@@ -36,6 +35,7 @@ export const list = {
     fontFamily: 'Lato-Light',
     fontSize: 18,
     marginBottom: 22,
+    marginTop: 12,
     color: 'gray',
 };
 
@@ -89,16 +89,18 @@ export const divider = {
 
 export const mainTableRow = {
     height: 20,
-};
-export const secondTableRow = {
-    height: 45,
     padding: 0,
-    marginvertical: 0,
+};
+
+export const secondTableRow = {
+    height: 15,
+    padding: 0,
+    marginVertical: 0,
 };
 
 export const crossedOut = {
     textDecorationLine: 'line-through',
-    paddingHorizontal: 0,
+    paddingHorizontal: 5,
     color: 'gray',
 };
 

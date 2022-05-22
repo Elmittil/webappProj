@@ -52,5 +52,7 @@ export const topNavBar = {
     backgroundColor: 'white',
 };
 
-export const timeCell = {
+export const dataTableRow = {
+    height: 25,
 }
+

@@ -30,14 +30,17 @@ const delays = {
         try {
             let delaysForStation = [];
             let delaysList = await fetchDelays();
-            delaysList.forEach(delay => {
+            delaysList.forEach(async delay => {
                 try {
-                    if (delay.ToLocation[0].LocationName == toStationCode) {
+                    if (delay.ToLocation && delay.ToLocation[0].LocationName == toStationCode) {
+                        let stationInfo = await getStationInfo(delay.FromLocation[0].LocationName);
+                        delay["stationName"] = stationInfo.stationName;
+                        delay["longitude"] = stationInfo.longitude;
+                        delay["latitude"] = stationInfo.latitude;
                         delaysForStation.push(delay);
                     }
                 } catch (e) {
                     e;
-                    console.log(e.message);
                 }
             });
             return delaysForStation;
@@ -58,25 +61,25 @@ const delays = {
         });
         return stationsAndCOdesDict;
     },
-    getStationsCoordinates: async function getStationsCoordinates(stations) {
-        
-    }
-
+    
 };
 
 async function getDelayedToStationCodes() {
     let delays = await fetchDelays();
-    let stationCodes = [];
-    delays.forEach(delay => {
-        try {
-            stationCodes.push(delay.ToLocation[0].LocationName);
-
-        } catch (e) {
-            e;
-            console.log(e.message);
-            console.log("missing delay");
+    let stationCodes = delays.map(delay =>{
+        if(delay.ToLocation) {
+            return delay.ToLocation[0].LocationName;
         }
     });
+    // delays.forEach(delay => {
+    //     try {
+    //         stationCodes.push(delay.ToLocation[0].LocationName);
+    //     } catch (e) {
+    //         e;
+    //         console.log(e.message);
+    //         console.log("missing delay");
+    //     }
+    // });
     return stationCodes;
 }
 
@@ -92,6 +95,40 @@ async function fetchStations() {
     });
     const result = await response.json();
     return result.data;
+}
+async function getStationInfo(stationCode): Promise<any> {
+    let result = null;
+    let stations = await fetchStations();
+    result = stations.map(station => {
+        if (station.LocationSignature == stationCode) {
+            let coordinatesInfo = station.Geometry.WGS84;
+            console.log("coordinatesInfo"); 
+            console.log(coordinatesInfo);
+            let longitudeStart = coordinatesInfo.indexOf("(");
+            let latitudeStart = coordinatesInfo.indexOf(" ", longitudeStart);
+            result = { 
+                "longitude": parseFloat(coordinatesInfo.substring(longitudeStart+1, latitudeStart)),
+                "latitude": parseFloat(coordinatesInfo.substring(latitudeStart+1, coordinatesInfo.length-1)), 
+                "stationName": station.AdvertisedLocationName,
+            };
+        }
+    });
+    return result;
+    // stations.forEach(station => {
+    //     if (station.LocationSignature == stationCode) {
+    //         let coordinatesInfo = station.Geometry.WGS84;
+    //         console.log("coordinatesInfo"); 
+    //         console.log(coordinatesInfo);
+    //         let longitudeStart = coordinatesInfo.indexOf("(");
+    //         let latitudeStart = coordinatesInfo.indexOf(" ", longitudeStart);
+    //         result = { 
+    //             "longitude": parseFloat(coordinatesInfo.substring(longitudeStart+1, latitudeStart)),
+    //             "latitude": parseFloat(coordinatesInfo.substring(latitudeStart+1, coordinatesInfo.length-1)), 
+    //             "stationName": station.AdvertisedLocationName,
+    //         };
+    //         return result;
+    //     };
+    // });
 }
 
 export default delays;
