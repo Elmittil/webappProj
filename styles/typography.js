@@ -1,5 +1,11 @@
 export const header1 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Regular',
+    fontSize: 42,
+    marginBottom: 28,
+};
+
+export const header1Bold = {
+    fontFamily: 'Lato-Bold',
     fontSize: 42,
     marginBottom: 28,
 };
@@ -8,7 +14,7 @@ export const white = {
 }
 
 export const header2 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Regular',
     fontSize: 34,
     marginBottom: 28,
 };
@@ -16,14 +22,11 @@ export const header2 = {
 export const header3 = {
     fontFamily: 'Lato-Regular',
     fontSize: 22,
-    // marginBottom: 10,
-    // marginTop: 50,
 };
 
 export const header4 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Light',
     fontSize: 18,
-    // marginBottom: ,14
 };
 
 export const normal = {

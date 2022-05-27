@@ -16,7 +16,7 @@ const storage = {
         }
     },
 
-    readToken: async function readToke(): Promise<any> {
+    readToken: async function readToken(): Promise<any> {
         try {
             const jsonValue = await AsyncStorage.getItem("@token");
             return jsonValue != null ? JSON.parse(jsonValue) : null;

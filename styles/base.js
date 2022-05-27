@@ -17,17 +17,28 @@ export const contentBox = {
 export const button = {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
+    paddingVertical: 17,
+    paddingHorizontal: 28,
+    borderRadius: 8,
     elevation: 3,
     backgroundColor: '#30AA3B',
     color: 'white',
-    marginHorizontal: '5%',
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 5,
 };
 
+export const greyButton = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 17,
+    paddingHorizontal: 28,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: '#323232',
+    color: 'white',
+    marginTop: 20,
+    marginBottom: 5,
+};
 export const mapButton = {
     alignItems: 'center',
     justifyContent: 'center',

@@ -11,10 +11,10 @@ export default function Register({ navigation }) {
     async function doRegister() {
         if (auth.email && auth.password) {
             const result = await AuthModel.register(auth.email, auth.password);
-            if (result.type === 'success') {
+            if (result.message === 'User successfully registered.') {
                 navigation.navigate("Login");
             }
-            showMessage(result);
+            showMessage(result.message);
         } else {
             let description = "Please provide valid email and password";
             if (!auth.email && auth.password) {

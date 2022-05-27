@@ -9,12 +9,10 @@ const delays = {
             let stationCodesWithDelays = getDelayedToStationCodes(allDelays);
             let stationsWithDelays = [];
             allStations.forEach(station => {
-                // console.log(stationCodesWithDelays.includes(station.LocationSignature));
                 if (stationCodesWithDelays.includes(station.LocationSignature)) {
                     stationsWithDelays.push(station);
                 }
             });
-            // console.log(stationsWithDelays);
             return stationsWithDelays;
         } catch (error) {
             console.error("could not fetch stations " + error);

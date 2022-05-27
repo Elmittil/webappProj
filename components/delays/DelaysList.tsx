@@ -18,15 +18,15 @@ export default function DelaysList({ route, navigation }) {
     stationName = station.AdvertisedLocationName;
 
     const delaysRows = delaysForThisStation.map((delay, index) => {
-        return (<View>
-            <DataTable.Row key={index+400}>
+        return (<View key={index}>
+            <DataTable.Row >
                 <DataTable.Cell  style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>
                     <Text style={Typography.crossedOut}>{formatDate(delay.AdvertisedTimeAtLocation)}</Text>
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 5 }} textStyle={[Typography.header4, Typography.center, Typography.white]}>{delay.stationName}</DataTable.Cell>
             </DataTable.Row>
 
-            <DataTable.Row key={index + 100} >
+            <DataTable.Row >
                 <DataTable.Cell  style={{ flex: 1 }} textStyle={[Typography.tablePrice, Typography.white]}>
                     <Text>{formatDate(delay.EstimatedTimeAtLocation)}</Text>
                 </DataTable.Cell>

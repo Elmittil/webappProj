@@ -33,15 +33,17 @@ export default function DelaysMap({ route }) {
     useEffect(() => {
         (async () => {
             try {
+                let markerIndex = 1;
                 delays.forEach(async (delay) => {
                         let marker = <Marker
+                        key={markerIndex}
                             coordinate={{ latitude: delay.latitude, longitude: delay.longitude }}
                             title={delay.stationName + " " + formatDate(delay.EstimatedTimeAtLocation)}
                             identifier="orderMarker"
                         />;
                         setMarkers(state => [...state, marker]);
                         setMarkersCoords(state => [...state, { latitude: delay.latitude, longitude: delay.longitude }]);
-                    // };
+                    markerIndex++;
                 });
                 
             } catch (error) {

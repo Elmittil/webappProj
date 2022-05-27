@@ -18,8 +18,9 @@ const auth = {
             email: email,
             password: password
         };
-
-        const response = await fetch(`${config.base_url}/auth/register`,
+        let body = JSON.stringify(data);
+        console.log(body);
+        const response = await fetch(`${config.auth_url}/register`,
         {
             method: "POST",
             body: JSON.stringify(data),
@@ -27,8 +28,9 @@ const auth = {
                 'content-type': 'application/json'
             }
         });
-
-        return await response.json();
+        let result = await response.json();
+        console.log(result);
+        return result;
     },
 
     login: async function login(email:string, password:string) {
@@ -38,7 +40,7 @@ const auth = {
             password: password
         };
 
-        const response = await fetch(`${config.base_url}/auth/login`,
+        const response = await fetch(`${config.auth_url}/login`,
         {
             method: "POST",
             body: JSON.stringify(data),
@@ -67,7 +69,27 @@ const auth = {
 
     logout: async function logout() {
         await storage.deleteToken();
+    },
+
+    getFavouriteStations: async function getFavouriteStations() {
+        let token = await storage.readToken();
+        var favourites;
+        await fetch(`${config.auth_url}/data?api_key=${config.api_key}`,
+        {
+            headers: {
+                'x-access-token': token.token
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function(result) {
+            favourites = result.data;
+        });
+        ;
+        // console.log("favourites at fetch");
+        // console.log(favourites);
+        return favourites;
     }
+
 };
 
 export default auth;
