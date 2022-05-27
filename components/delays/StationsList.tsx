@@ -4,7 +4,7 @@ import delaysModel from "../../models/delays";
 import apiDataModel from "../../models/apiData";
 import Favourites from '../mypage/Favourites'
 import { Base, Typography } from '../../styles';
-import { Divider } from 'react-native-paper';
+import { DataTable } from 'react-native-paper';
 import { createListOfStations } from "../helpers/stationsListGenerator";
 
 export function Stations({ route, navigation, isLoggedIn, stations, setStations, delays, setDelays, favourites, setFavourites }) {
@@ -28,7 +28,10 @@ export function Stations({ route, navigation, isLoggedIn, stations, setStations,
             } */}
             <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} />
             <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop ]}>Relevant Stations</Text>
-            {list}
+            <DataTable style={{ padding: 0 }}>
+                {list}
+            </DataTable>
+            
         </ScrollView>
     );
 }
