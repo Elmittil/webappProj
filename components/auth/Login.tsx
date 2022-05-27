@@ -13,12 +13,9 @@ export default function Login({ navigation, setIsLoggedIn, setFavourites, favour
             const result = await AuthModel.login(auth.email, auth.password);
             if (result.type === 'success') {
                 setIsLoggedIn(true);
-                navigation.navigate("My page");
                 const favouritesFetch = await AuthModel.getFavouriteStations();
-                console.log("favourites at login");
-                console.log(favouritesFetch);
                 setFavourites(favouritesFetch);
-                console.log(favourites);
+                navigation.navigate("My page");
             } 
             showMessage(result.message);
         } else {

@@ -19,7 +19,6 @@ const auth = {
             password: password
         };
         let body = JSON.stringify(data);
-        console.log(body);
         const response = await fetch(`${config.auth_url}/register`,
         {
             method: "POST",
@@ -29,7 +28,6 @@ const auth = {
             }
         });
         let result = await response.json();
-        console.log(result);
         return result;
     },
 
@@ -84,12 +82,29 @@ const auth = {
         }).then(function(result) {
             favourites = result.data;
         });
-        ;
-        // console.log("favourites at fetch");
-        // console.log(favourites);
-        return favourites;
+        let processedFavourites = processFavouritesJSON(favourites);
+        return processedFavourites;
+    },
+
+    addFavouriteStation: async function addFavouriteStation(stationCode: string) {
+
+    },
+
+    removeFavouriteStation: async function removeFavouriteStation(stationCode: string) {
+
     }
+
 
 };
 
 export default auth;
+
+function processFavouritesJSON(jsonData) {
+    var favouritesDict= { "stations": [],
+                            "stationsWithIDs": {}};
+    jsonData.forEach(element => {
+        favouritesDict.stationsWithIDs[element.artefact] = element.id;
+        favouritesDict.stations.push(element.artefact);
+    });
+    return favouritesDict;
+}

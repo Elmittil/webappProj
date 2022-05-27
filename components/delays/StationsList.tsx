@@ -5,10 +5,9 @@ import apiDataModel from "../../models/apiData";
 import Favourites from '../mypage/Favourites'
 import { Base, Typography } from '../../styles';
 import { Divider } from 'react-native-paper';
-import { createListOfStations } from "../helpers/stationsList";
+import { createListOfStations } from "../helpers/stationsListGenerator";
 
 export function Stations({ route, navigation, isLoggedIn, stations, setStations, delays, setDelays, favourites, setFavourites }) {
-
     useEffect(() => {
         (async () => {
             setStations(await apiDataModel.fetchStations());
@@ -27,7 +26,7 @@ export function Stations({ route, navigation, isLoggedIn, stations, setStations,
                 :
                 <Text style={[Typography.listFine, Typography.white, Typography.center, Typography.spaceTop]}>You need to log in to see your favourite stations</Text>
             } */}
-            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stations} favourites={favourites} setFavourites={setFavourites} />
+            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} />
             <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop ]}>Relevant Stations</Text>
             {list}
         </ScrollView>

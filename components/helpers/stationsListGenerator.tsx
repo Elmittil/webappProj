@@ -28,11 +28,12 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
             >
                 <Text style={[Typography.list, Typography.white]}>{station.AdvertisedLocationName}</Text>
             </Pressable>
-            <Pressable onPress={() => changefavouritesStatus()}>
+            <Pressable onPress={() => {}}>
+            {/* changefavouritesStatus(station.LocationSignature) */}
                 <Ionicons
-                    name={name}
-                    size={22}
-                    color=color={color}
+                    name="star-outline"
+                    size={18}
+                    color="white"
                 />
             </Pressable>
             <Divider style={Typography.divider} />
