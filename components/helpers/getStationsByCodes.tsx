@@ -5,7 +5,5 @@ export function getStationsByCodes(stations, stationCodes: Array<String>) {
             }
         }
     );
-    console.log("In getStationsByCodes");
-    console.log(newStationsArray);
     return newStationsArray;
 }

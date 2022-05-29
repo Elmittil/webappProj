@@ -87,11 +87,48 @@ const auth = {
     },
 
     addFavouriteStation: async function addFavouriteStation(stationCode: string) {
-
+        let token = await storage.readToken();
+        let data = {
+            api_key: config.api_key,
+            artefact: stationCode,
+        };
+        let savedStationData = [];
+        await fetch(`${config.auth_url}/data`,
+        {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'x-access-token': token.token,
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function(result) {
+            savedStationData = result.data;
+        });
+        return savedStationData;
     },
 
-    removeFavouriteStation: async function removeFavouriteStation(stationCode: string) {
-
+    removeFavouriteStation: async function removeFavouriteStation(dataID: number) {
+        let token = await storage.readToken();
+        let data = {
+            api_key: config.api_key,
+            id: dataID,
+        };
+        await fetch(`${config.auth_url}/data`,
+        {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                'x-access-token': token.token,
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function(result) {
+            return {
+                message: "Station deleted",
+                type: "success"
+            };
+        });
     }
 
 

@@ -16,16 +16,10 @@ export function Stations({ route, navigation, isLoggedIn, stations, setStations,
     }, []);
 
     let stationsWithDelays = delaysModel.getStations(stations, delays);
-    const list = createListOfStations(stationsWithDelays, navigation, stations, delays);
+    const list = createListOfStations(stationsWithDelays, navigation, stations, delays, isLoggedIn, favourites, setFavourites);
 
     return (
         <ScrollView style={[Base.container, Base.contentBox]}>
-            {/* <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop]}>Favourites</Text>
-            {isLoggedIn ?
-                <Text style={[Typography.listFine, Typography.white, Typography.center, Typography.spaceTop]}>List of your favourite stations</Text>
-                :
-                <Text style={[Typography.listFine, Typography.white, Typography.center, Typography.spaceTop]}>You need to log in to see your favourite stations</Text>
-            } */}
             <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} />
             <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop ]}>Relevant Stations</Text>
             <DataTable style={{ padding: 0 }}>

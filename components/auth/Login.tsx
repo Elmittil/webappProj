@@ -7,14 +7,14 @@ import Favourites from '../mypage/Favourites';
 
 export default function Login({ navigation, setIsLoggedIn, setFavourites, favourites }) {
     const [auth, setAuth] = useState<Partial<Auth>>({});
-
     async function doLogin() {
         if (auth.email && auth.password) {
             const result = await AuthModel.login(auth.email, auth.password);
-            if (result.type === 'success') {
-                setIsLoggedIn(true);
+            if (result.type == "success") {
                 const favouritesFetch = await AuthModel.getFavouriteStations();
                 setFavourites(favouritesFetch);
+
+                setIsLoggedIn(true);
                 navigation.navigate("My page");
             } 
             showMessage(result.message);

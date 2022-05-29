@@ -9,11 +9,12 @@ import { Base, Typography } from '../../styles';
 
 
 export default function Favourites({ navigation, isLoggedIn, stations, delays, setFavourites, favourites }) {
-
     useEffect(() => {
         (async () => {
-            const favouritesFetch = await AuthModel.getFavouriteStations();
-            setFavourites(favouritesFetch);
+            if (isLoggedIn){
+                const favouritesFetch = await AuthModel.getFavouriteStations();
+                setFavourites(favouritesFetch);
+            };
         })();
     }, []);
 
@@ -22,7 +23,7 @@ export default function Favourites({ navigation, isLoggedIn, stations, delays, s
 
     if (isLoggedIn){
         favouriteStations = getStationsByCodes(stations, favourites.stations);
-        list = createListOfStations(favouriteStations, navigation, stations, delays);
+        list = createListOfStations(favouriteStations, navigation, stations, delays, isLoggedIn, favourites, setFavourites);
     };
   
     return (<View>

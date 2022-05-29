@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,7 +13,7 @@ import DelaysStack from "./components/delays/DelaysStack";
 import Auth from "./components/auth/Auth";
 import MypageStack from "./components/mypage/MypageStack";
 import { Base } from './styles';
-
+import authModel from './models/auth';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -24,7 +24,10 @@ export default function App() {
     const [stations, setStations] = useState([]);
     const [delays, setDelays] = useState([]);
     const [favourites, setFavourites] = useState([]);
-
+    const mySetIsLoggedIn = ((loginState) => {
+        console.log("setting logged in state to " + loginState);
+        setIsLoggedIn(loginState);
+    });
     const routeIcons = {
         "Trafic Info": "train-outline",
         "Map": "profile",
@@ -80,11 +83,11 @@ export default function App() {
                         {/* if logged in show invoices, otherwise show log in */}
                         {isLoggedIn ?
                             <Tab.Screen name="My page">
-                                {() => <MypageStack isLoggedIn={isLoggedIn} stations={stations} delays={delays} setFavourites={setFavourites} favourites={favourites}/>}
+                                {() => <MypageStack isLoggedIn={isLoggedIn} setIsLoggedIn={mySetIsLoggedIn} stations={stations} delays={delays} setFavourites={setFavourites} favourites={favourites}/>}
                             </Tab.Screen> 
                             :
                             <Tab.Screen name="Log In">
-                                {() => <Auth setIsLoggedIn={setIsLoggedIn} setFavourites={setFavourites} favourites={favourites}/>}
+                                {() => <Auth setIsLoggedIn={mySetIsLoggedIn} setFavourites={setFavourites} favourites={favourites}/>}
                             </Tab.Screen>
                         }
 
@@ -96,3 +99,4 @@ export default function App() {
         );
     }
 }
+
