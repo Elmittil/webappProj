@@ -11,10 +11,19 @@ export default function Register({ navigation }) {
     async function doRegister() {
         if (auth.email && auth.password) {
             const result = await AuthModel.register(auth.email, auth.password);
-            if (result.type === 'success') {
-                navigation.navigate("Login");
+            if ("errors" in result) {
+                if (result.errors.detail.indexOf("users.email") > -1) {
+                    showMessage("This email is already in use");
+                } else {
+                    showMessage(result.errors.detail);
+                }
+                return;
             }
-            showMessage(result);
+            console.log(result.data.message);
+            if (result.data.message === 'User successfully registered.') {
+                navigation.navigate("Login");
+                showMessage(result.message);
+            }
         } else {
             let description = "Please provide valid email and password";
             if (!auth.email && auth.password) {

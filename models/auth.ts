@@ -18,8 +18,8 @@ const auth = {
             email: email,
             password: password
         };
-
-        const response = await fetch(`${config.base_url}/auth/register`,
+        let body = JSON.stringify(data);
+        const response = await fetch(`${config.auth_url}/register`,
         {
             method: "POST",
             body: JSON.stringify(data),
@@ -27,8 +27,8 @@ const auth = {
                 'content-type': 'application/json'
             }
         });
-
-        return await response.json();
+        let result = await response.json();
+        return result;
     },
 
     login: async function login(email:string, password:string) {
@@ -38,7 +38,7 @@ const auth = {
             password: password
         };
 
-        const response = await fetch(`${config.base_url}/auth/login`,
+        const response = await fetch(`${config.auth_url}/login`,
         {
             method: "POST",
             body: JSON.stringify(data),
@@ -67,7 +67,83 @@ const auth = {
 
     logout: async function logout() {
         await storage.deleteToken();
+    },
+
+    getFavouriteStations: async function getFavouriteStations() {
+        let token = await storage.readToken();
+        // console.log(token);
+        
+        var favourites;
+        await fetch(`${config.auth_url}/data?api_key=${config.api_key}`,
+        {
+            headers: {
+                'x-access-token': token.token
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function(result) {
+            favourites = result.data;
+        });
+        let processedFavourites = processFavouritesJSON(favourites);
+        return processedFavourites;
+    },
+
+    addFavouriteStation: async function addFavouriteStation(stationCode: string) {
+        let token = await storage.readToken();
+        let data = {
+            api_key: config.api_key,
+            artefact: stationCode,
+        };
+        
+        let savedStationData = [];
+        await fetch(`${config.auth_url}/data`,
+        {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'x-access-token': token.token,
+                'content-type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function(result) {
+            savedStationData = result.data;
+        });
+        return savedStationData;
+    },
+
+    removeFavouriteStation: async function removeFavouriteStation(dataID: number) {
+        let token = await storage.readToken();
+        let data = {
+            api_key: config.api_key,
+            id: dataID,
+        };
+        let response = await fetch(`${config.auth_url}/data`,
+        {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                'x-access-token': token.token,
+                'content-type': 'application/json'
+            }
+        })
+        return {
+            message: "Station deleted",
+            type: "success"
+        };
     }
+
+
 };
 
 export default auth;
+
+function processFavouritesJSON(jsonData) {
+    var favouritesDict= { "stations": [],
+                            "stationsWithIDs": {}};
+    jsonData.forEach(element => {
+        favouritesDict.stationsWithIDs[element.artefact] = element.id;
+        favouritesDict.stations.push(element.artefact);
+    });
+    return favouritesDict;
+}

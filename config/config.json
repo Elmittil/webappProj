@@ -1,4 +1,5 @@
 {
-    "api_key": "04cacdd98a7db492190217400f297ab0",
-    "base_url": "https://trafik.emilfolino.se"
+    "api_key": "90d427a2729b92a0e9121cb1c8308381",
+    "base_url": "https://trafik.emilfolino.se",
+    "auth_url": "https://auth.emilfolino.se"
 }

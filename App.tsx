@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,13 +9,11 @@ import FlashMessage from 'react-native-flash-message';
 import { useFonts } from '@expo-google-fonts/lobster';
 import AppLoading from 'expo-app-loading';
 
-import Stationsmap from "./components/stations_map/map";
 import DelaysStack from "./components/delays/DelaysStack";
 import Auth from "./components/auth/Auth";
-
-import { Base, Typography } from './styles';
-
-import authModel from "./models/auth";
+import MypageStack from "./components/mypage/MypageStack";
+import { Base } from './styles';
+import authModel from './models/auth';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -24,7 +22,12 @@ export default function App() {
 
     const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
     const [stations, setStations] = useState([]);
-
+    const [delays, setDelays] = useState([]);
+    const [favourites, setFavourites] = useState([]);
+    const mySetIsLoggedIn = ((loginState) => {
+        console.log("setting logged in state to " + loginState);
+        setIsLoggedIn(loginState);
+    });
     const routeIcons = {
         "Trafic Info": "train-outline",
         "Map": "profile",
@@ -68,16 +71,23 @@ export default function App() {
                         })}
                     >
                         <Tab.Screen name="Trafic Info">
-                            {() => <DelaysStack isLoggedIn={isLoggedIn} stations={stations} setStations={setStations}/>}
+                            {() => <DelaysStack 
+                            isLoggedIn={isLoggedIn} 
+                            stations={stations} 
+                            setStations={setStations} 
+                            delays={delays}
+                            setDelays={setDelays}
+                            favourites={favourites}
+                            setFavourites={setFavourites}/>}
                         </Tab.Screen>
                         {/* if logged in show invoices, otherwise show log in */}
                         {isLoggedIn ?
-                            <Tab.Screen name="My Page">
-                                {() => <DelaysStack stations={stations} setStations={setStations} />}
-                            </Tab.Screen> :
-
+                            <Tab.Screen name="My page">
+                                {() => <MypageStack isLoggedIn={isLoggedIn} setIsLoggedIn={mySetIsLoggedIn} stations={stations} delays={delays} setFavourites={setFavourites} favourites={favourites}/>}
+                            </Tab.Screen> 
+                            :
                             <Tab.Screen name="Log In">
-                                {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
+                                {() => <Auth setIsLoggedIn={mySetIsLoggedIn} setFavourites={setFavourites} favourites={favourites}/>}
                             </Tab.Screen>
                         }
 
@@ -89,3 +99,4 @@ export default function App() {
         );
     }
 }
+

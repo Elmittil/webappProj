@@ -14,8 +14,8 @@ import delaysModel from "../../models/delays";
 
 export default function DelaysMap({ route }) {
     const { stationName, stationsDict, delays } = route.params;
-    const [marker, setMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
+    const [markersCoords, setMarkersCoords] = useState([]);
     const [locationMarker, setLocationMarker] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const _ = require("lodash");
@@ -33,23 +33,17 @@ export default function DelaysMap({ route }) {
     useEffect(() => {
         (async () => {
             try {
+                let markerIndex = 1;
                 delays.forEach(async (delay) => {
-                    // let stationInfo = await delaysModel.getStationInfo(delay.FromLocation[0].LocationName);
-                    // console.log(stationInfo);
-                    // let stationInfo = {
-                    //     "latitude": 59.12303313879594,
-                    //     "longitude":18.103366450191004,
-                    //     "stationName": "Västerhaginge",
-                    // };
-                    // if (stationInfo) {
-                        console.log(delay);
                         let marker = <Marker
+                        key={markerIndex}
                             coordinate={{ latitude: delay.latitude, longitude: delay.longitude }}
                             title={delay.stationName + " " + formatDate(delay.EstimatedTimeAtLocation)}
                             identifier="orderMarker"
                         />;
                         setMarkers(state => [...state, marker]);
-                    // };
+                        setMarkersCoords(state => [...state, { latitude: delay.latitude, longitude: delay.longitude }]);
+                    markerIndex++;
                 });
                 
             } catch (error) {
@@ -79,37 +73,21 @@ export default function DelaysMap({ route }) {
                 pinColor="blue"
             />);
             setMarkers(state => [...state, locationMarker]);
+            setMarkersCoords(state => [...state, { latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude }]);
         })();
     }, []);
 
-    //  return a text element for each ["name", "address", "city", "zip", "country"]
-    // of the order object
-    // const stationDetails = _.map(delays, (delay, key) => {
-    //     let stationName = stationsDict[delay.FromLocation[0].LocationName]
-    //     let textStyle = Typography.listFine;
-    //     if (key === "name") {
-    //         textStyle = Typography.header4;
-    //     }
-    //     if (["name", "address", "city", "zip", "country"].includes(key)) {
-    //         return (<Text
-    //             style={textStyle}
-    //             key={key}>
-    //             {stationName + " ETA: " + formatDate(delay.EstimatedTimeAtLocation)}
-    //         </Text>
-    //         );
-    //     }
-    // });
-
-    // async function fitMapToMarkers() {
-    //     await mapRef.current.fitToCoordinates(markers, {
-    //         edgePadding: {
-    //             top: 40,
-    //             right: 20,
-    //             bottom: 30,
-    //             left: 20,
-    //         },
-    //     });
-    // }
+    async function fitMapToMarkers() {
+        await mapRef.current.fitToCoordinates(markersCoords, {
+            edgePadding: {
+                top: 40,
+                right: 20,
+                bottom: 30,
+                left: 20,
+            },
+        });
+    }
 
     return (
         <View style={[Base.container]}>
@@ -135,11 +113,11 @@ export default function DelaysMap({ route }) {
 
                 </MapView>
             </View>
-            {/* <View>
+            <View>
                 <Pressable onPress={fitMapToMarkers}>
                     <Text style={[Typography.list, Typography.center]}>Update to see all markers</Text>
                 </Pressable>
-            </View> */}
+            </View>
         </View>
     );
 };

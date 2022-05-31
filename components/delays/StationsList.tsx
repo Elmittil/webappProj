@@ -1,46 +1,50 @@
 import { useEffect } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import delaysModel from "../../models/delays";
+import AuthModel from "../../models/auth";
+import apiDataModel from "../../models/apiData";
+import Favourites from '../mypage/Favourites'
 import { Base, Typography } from '../../styles';
-import { Divider } from 'react-native-paper';
+import { DataTable } from 'react-native-paper';
+import { createListOfStations } from "../helpers/stationsListGenerator";
 
-
-export default function Stations({ route, navigation, isLoggedIn, stations, setStations }) {
-
+export function Stations({ route, navigation, isLoggedIn, stations, setStations, delays, setDelays, favourites, setFavourites }) {
     useEffect(() => {
         (async () => {
-            setStations(await delaysModel.getStations());
+            setStations(await apiDataModel.fetchStations());
+            setDelays(await apiDataModel.fetchDelays());
+            await updateFavourites(isLoggedIn);
         })();
-    }, []);
+    }, [favourites]);
 
-    const list = stations.map((station, index) => {
-        return <View>
-            <Pressable
-                title={station.LocationSignature}
-                key={index}
-                onPress={() => {
-                    navigation.navigate('Delays', {
-                        station: station
-                    });
-                }}
-            >
-                <Text style={[Typography.list, Typography.white]}>{station.AdvertisedLocationName}</Text>
-            </Pressable>
-            <Divider style={Typography.divider} />
-        </View>
-        return
-    });
+    async function updateFavourites(isLoggedIn) {
+        console.log(isLoggedIn);
+        if (isLoggedIn) {
+            // console.log("updating effect");
+            const favouritesFetch = await AuthModel.getFavouriteStations();
+            if (favourites.stations.length !== favouritesFetch.stations.length) {
+                setFavourites(favouritesFetch);
+            }
+        }
+        // else {
+        //     setFavourites([]);
+        // }
+    }
+
+    let stationsWithDelays = delaysModel.getStations(stations, delays);
+    const list = createListOfStations(stationsWithDelays, navigation, stations, delays, isLoggedIn, favourites, setFavourites);
+
 
     return (
         <ScrollView style={[Base.container, Base.contentBox]}>
-            <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop]}>Favourites</Text>
-            {isLoggedIn ?
-                <Text style={[Typography.listFine, Typography.white, Typography.center, Typography.spaceTop]}>List of your favourite stations</Text>
-                :
-                <Text style={[Typography.listFine, Typography.white, Typography.center, Typography.spaceTop]}>You need to log in to see your favourite stations</Text>
-            }
-            <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop ]}>Relevant Stations</Text>
-            {list}
+            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} />
+            <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop]}>Relevant Stations</Text>
+            <DataTable style={{ padding: 0 }}>
+                {list}
+            </DataTable>
+
         </ScrollView>
     );
 }
+
+

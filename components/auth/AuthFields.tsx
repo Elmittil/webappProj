@@ -1,6 +1,8 @@
 import { View, Text, TextInput, Button, Pressable } from "react-native";
-import { Typography, FormStyles, HomeStyles, Base } from '../../styles';
+import { Typography, Form, Base } from '../../styles';
 import { showMessage } from 'react-native-flash-message';
+import { Divider } from 'react-native-paper';
+
 
 
 export default function AuthFields({ auth, setAuth, title, submit, navigation }) {
@@ -31,48 +33,44 @@ export default function AuthFields({ auth, setAuth, title, submit, navigation })
 
 
     return (
-        <View style={[Base.container, HomeStyles.base]}>
-            <Text style={Typography.header2}>{title}</Text>
+        <View style={[Base.container, Form.base]}>
+            <Text style={[Typography.header1Bold, Typography.white, ]}>{title}</Text>
+            <View>
+                <Text style={[Form.header4Bold, Typography.white]}>User name</Text>
+                <TextInput
+                    style={Form.input}
+                    onChangeText={(content: string) => {
+                        validateEmail(content);
+                        setAuth({ ...auth, email: content })
+                    }}
+                    value={auth?.email}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    testID="email-field"
+                />
+            </View>
+            
+            <Divider style={Typography.divider} />
 
-            <Text style={Typography.label}>Email</Text>
-            <TextInput
-                style={FormStyles.input}
-                onChangeText={(content: string) => {
-                    validateEmail(content);
-                    setAuth({ ...auth, email: content })
-                }}
-                value={auth?.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                testID="email-field"
-            />
-
-            <Text style={Typography.label}>Password</Text>
-            <TextInput
-                style={FormStyles.input}
-                onChangeText={(content: string) => {
-                    validatePassword(content);
-                    setAuth({ ...auth, password: content })
-                }}
-                value={auth?.password}
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                testID="password-field"
-            />
-            <Pressable style={Base.button}
-                onPress={() => {
-                    submit();
-                }}
-                accessibilityLabel={`Press to ${title}`}>
-
-                <Text style={Typography.buttonText}>{title}</Text>
-            </Pressable>
-
+            <View>
+                <Text style={[Form.header4Bold, Typography.white]}>Password</Text>
+                <TextInput
+                    style={Form.input}
+                    onChangeText={(content: string) => {
+                        validatePassword(content);
+                        setAuth({ ...auth, password: content })
+                    }}
+                    value={auth?.password}
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    testID="password-field"
+                />
+            </View>
             {title === "Log in" &&
                 <Pressable
-                    style={Base.button}
+                    style={Base.greyButton}
                     onPress={() => {
                         navigation.navigate("Register");
                     }}
@@ -82,6 +80,17 @@ export default function AuthFields({ auth, setAuth, title, submit, navigation })
                     <Text style={Typography.buttonText}>Register</Text>
                 </Pressable>
             }
+
+            <Pressable style={Base.button}
+                onPress={() => {
+                    submit();
+                }}
+                accessibilityLabel={`Press to ${title}`}>
+
+                <Text style={Typography.buttonText}>{title}</Text>
+            </Pressable>
+
+            
         </View>
     );
 };

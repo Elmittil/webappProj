@@ -3,18 +3,21 @@ import { useState } from 'react';
 import AuthModel from '../../models/auth';
 import AuthFields from './AuthFields';
 import { showMessage } from 'react-native-flash-message';
+import Favourites from '../mypage/Favourites';
 
-export default function Login({ navigation, setIsLoggedIn }) {
+export default function Login({ navigation, setIsLoggedIn, setFavourites, favourites }) {
     const [auth, setAuth] = useState<Partial<Auth>>({});
-
     async function doLogin() {
         if (auth.email && auth.password) {
             const result = await AuthModel.login(auth.email, auth.password);
-            if (result.type === 'success') {
+            if (result.type == "success") {
+                const favouritesFetch = await AuthModel.getFavouriteStations();
+                setFavourites(favouritesFetch);
+
                 setIsLoggedIn(true);
-                navigation.navigate("Invoices");
+                navigation.navigate("My page");
             } 
-            showMessage(result);
+            showMessage(result.message);
         } else {
             let description = "Please provide valid email and password";
             if (!auth.email && auth.password){

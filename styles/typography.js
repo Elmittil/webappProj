@@ -1,5 +1,11 @@
 export const header1 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Regular',
+    fontSize: 42,
+    marginBottom: 28,
+};
+
+export const header1Bold = {
+    fontFamily: 'Lato-Bold',
     fontSize: 42,
     marginBottom: 28,
 };
@@ -8,7 +14,7 @@ export const white = {
 }
 
 export const header2 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Regular',
     fontSize: 34,
     marginBottom: 28,
 };
@@ -16,16 +22,17 @@ export const header2 = {
 export const header3 = {
     fontFamily: 'Lato-Regular',
     fontSize: 22,
-    // marginBottom: 10,
-    // marginTop: 50,
 };
 
 export const header4 = {
-    // fontFamily: 'Zurich-Bold',
+    fontFamily: 'Lato-Light',
     fontSize: 18,
-    // marginBottom: ,14
 };
 
+export const header4Bold = {
+    fontFamily: 'Lato-Bold',
+    fontSize: 16,
+};
 export const normal = {
     fontSize: 20,
     marginBottom: 28,
@@ -34,7 +41,7 @@ export const normal = {
 export const list = {
     fontFamily: 'Lato-Light',
     fontSize: 18,
-    marginBottom: 22,
+    marginBottom: 0,
     marginTop: 12,
     color: 'gray',
 };
@@ -77,7 +84,7 @@ export const warning = {
 };
 
 export const tablePrice = {
-    paddingRight: 20,
+
 };
 export const tableName = {
     width: 200,
@@ -88,24 +95,23 @@ export const divider = {
 }
 
 export const mainTableRow = {
-    height: 20,
     padding: 0,
 };
 
 export const secondTableRow = {
-    height: 15,
     padding: 0,
     marginVertical: 0,
 };
 
 export const crossedOut = {
     textDecorationLine: 'line-through',
-    paddingHorizontal: 5,
+    fontFamily: 'Lato-Bold',
+    fontSize: 16,
     color: 'gray',
 };
 
 export const timeTableHeader = {
-    flex: 1, 
+    flex: 1.5, 
     textAlign: 'right'
 };
 
