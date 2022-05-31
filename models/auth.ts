@@ -71,6 +71,8 @@ const auth = {
 
     getFavouriteStations: async function getFavouriteStations() {
         let token = await storage.readToken();
+        // console.log(token);
+        
         var favourites;
         await fetch(`${config.auth_url}/data?api_key=${config.api_key}`,
         {
@@ -92,6 +94,7 @@ const auth = {
             api_key: config.api_key,
             artefact: stationCode,
         };
+        
         let savedStationData = [];
         await fetch(`${config.auth_url}/data`,
         {
@@ -99,6 +102,7 @@ const auth = {
             body: JSON.stringify(data),
             headers: {
                 'x-access-token': token.token,
+                'content-type': 'application/json'
             }
         }).then(function (response) {
             return response.json();
@@ -114,21 +118,19 @@ const auth = {
             api_key: config.api_key,
             id: dataID,
         };
-        await fetch(`${config.auth_url}/data`,
+        let response = await fetch(`${config.auth_url}/data`,
         {
             method: "DELETE",
             body: JSON.stringify(data),
             headers: {
                 'x-access-token': token.token,
+                'content-type': 'application/json'
             }
-        }).then(function (response) {
-            return response.json();
-        }).then(function(result) {
-            return {
-                message: "Station deleted",
-                type: "success"
-            };
-        });
+        })
+        return {
+            message: "Station deleted",
+            type: "success"
+        };
     }
 
 

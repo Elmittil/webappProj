@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Text, ScrollView, Pressable } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Favourites from '../mypage/Favourites';
@@ -5,6 +6,23 @@ import authModel from "../../models/auth";
 import { Base, Typography } from '../../styles';
 
 export default function Mypage({ navigation, isLoggedIn, setIsLoggedIn, stations, delays, setFavourites, favourites }) {    
+    useEffect(() => {
+        (async () => {
+            // const favouritesFetch = await authModel.getFavouriteStations();
+            // setFavourites(favouritesFetch);
+            await updateFavourites(isLoggedIn);
+        })();
+        
+    }, [isLoggedIn]);
+
+    async function updateFavourites(isLoggedIn) {
+        if (isLoggedIn){
+            console.log("updating effect");
+            const favouritesFetch = await authModel.getFavouriteStations();
+            setFavourites(favouritesFetch);
+        };
+    }
+    
     return (
         <ScrollView style={[Base.container, Base.contentBox]}>
             <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stations} setFavourites={setFavourites} favourites={favourites} />

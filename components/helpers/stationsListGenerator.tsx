@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import delaysModel from "../../models/delays";
 import authModel from "../../models/auth";
+
 import { Typography } from '../../styles';
 import { Divider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,16 +17,8 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
         return <Text style={[Typography.list, Typography.white]}>Login to see your favourite stations</Text>
     }
     if (stationsWithDelays.length < 1) {
-        return <Text style={[Typography.list, Typography.white]}>Click on a star to save a favourite station</Text>
+        return <Text style={[Typography.list, Typography.white]}>No favourited stations with delays</Text>
     }
-   // let favouriteStationIDs = {};
-  // console.log("in stationsListGenerator");
-    // console.log(isLoggedIn);
-    
-    // if (isLoggedIn) { 
-    //     favouriteStationIDs = favourites.stationsWithIDs;
-    // }
-    // console.log(favouriteStationIDs);  
     
     const list = stationsWithDelays.map((station, index) => {
         let delaysForThisStation = delaysModel.getDelays(station.LocationSignature, stations, delays);
@@ -61,6 +54,11 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
                     <Pressable
                         onPress={async () => {
                             changeFavouritesStatus(station.LocationSignature, isLoggedIn, favourites, setFavourites);
+                            // let updatedFavourites = await authModel.getFavouriteStations()
+                            if (isLoggedIn) {
+                                setFavourites(await authModel.getFavouriteStations());
+                            }
+                            // console.log(favourites[0]);
                         }}>
                         <Ionicons
                             style={{ margin: 0 }}
@@ -78,23 +76,32 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
 }
 
 async function changeFavouritesStatus(stationCode, isLoggedIn, favourites, setFavourites) {
+    console.log("changing status");
+    
+    let message = {
+        message: "Station saved to favourites",
+        description: "Station saved",
+        type: "success"
+    };
     if (isLoggedIn) {
+        // console.log(isStationSaved(stationCode, favourites));
+        
         if (isStationSaved(stationCode, favourites)) {
-            let dataID = favourites.stationsWithIDs.stationCode;
+            console.log("deleting station");
+            console.log(stationCode);
+
+            let dataID = favourites.stationsWithIDs[stationCode];
             await authModel.removeFavouriteStation(dataID);
+            message = {
+                message: "Station is deleted from favourites",
+                description: "Station deleted",
+                type: "success"
+            }
         } else {
             let newSavedStationData = await authModel.addFavouriteStation(stationCode);
-            if (newSavedStationData !== undefined) {
-                favourites.stations.push(stationCode);
-                favourites.stationsWithIDs[stationCode] = newSavedStationData.id;
-            }
-            setFavourites(favourites);
         }
-        showMessage({
-            message: "Station saved to favourites",
-            description: "Station saved",
-            type: "success"
-        });
+        showMessage(message);
+
     } else {
         showMessage({
             message: "Log in to save favourites",

@@ -9,14 +9,21 @@ import { Base, Typography } from '../../styles';
 
 
 export default function Favourites({ navigation, isLoggedIn, stations, delays, setFavourites, favourites }) {
-    useEffect(() => {
-        (async () => {
-            if (isLoggedIn){
-                const favouritesFetch = await AuthModel.getFavouriteStations();
-                setFavourites(favouritesFetch);
-            };
-        })();
-    }, []);
+
+    // useEffect(() => {
+    //     (async () => {
+    //         await updateFavourites(isLoggedIn);
+    //     })();
+        
+    // }, []);
+
+    // async function updateFavourites(isLoggedIn) {
+    //     if (isLoggedIn){
+    //         console.log("updating effect");
+    //         const favouritesFetch = await AuthModel.getFavouriteStations();
+    //         setFavourites(favouritesFetch);
+    //     };
+    // }
 
     let list = [];
     let favouriteStations = [];
