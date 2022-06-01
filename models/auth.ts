@@ -1,5 +1,3 @@
-// models/auth.ts
-
 import config from "../config/config.json";
 import storage from "./storage";
 
@@ -71,8 +69,7 @@ const auth = {
 
     getFavouriteStations: async function getFavouriteStations() {
         let token = await storage.readToken();
-        // console.log(token);
-        
+
         var favourites;
         await fetch(`${config.auth_url}/data?api_key=${config.api_key}`,
         {

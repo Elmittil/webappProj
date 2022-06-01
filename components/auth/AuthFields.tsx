@@ -9,9 +9,7 @@ export default function AuthFields({ auth, setAuth, title, submit, navigation })
 
     function validatePassword(text: string) {
         const pattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!\.\,\-]).{4,}$/;
-        // if (text.length < minLength) {
         if (!text.match(pattern)) {
-            // for (character in text)
             showMessage({
                 message: "Password error",
                 description: "Password has to be at least 4 characters long and include capital and lower case letters, numbers and special characters",

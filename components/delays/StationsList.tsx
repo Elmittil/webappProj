@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { Text, ScrollView} from 'react-native';
 import delaysModel from "../../models/delays";
 import AuthModel from "../../models/auth";
 import apiDataModel from "../../models/apiData";

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import AuthModel from '../../models/auth';
 import AuthFields from './AuthFields';
 import { showMessage } from 'react-native-flash-message';
-import Favourites from '../mypage/Favourites';
 
 export default function Login({ navigation, setIsLoggedIn, setFavourites, favourites }) {
     const [auth, setAuth] = useState<Partial<Auth>>({});

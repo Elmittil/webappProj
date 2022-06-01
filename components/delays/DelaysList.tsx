@@ -1,18 +1,14 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Base, Typography, Table } from '../../styles';
-import delaysModel from "../../models/delays";
 import { DataTable } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { formatDate } from '../helpers/formatters';
 
-
-
 let stationName = "Delays";
 
 export default function DelaysList({ route, navigation }) {
-    const { station, stations, delaysForThisStation } = route.params;
-    const { reload } = route.params || false;
+    const { station, delaysForThisStation } = route.params;
     const [stationsDict, setStationsDict] = useState({});
 
     stationName = station.AdvertisedLocationName;
@@ -23,7 +19,7 @@ export default function DelaysList({ route, navigation }) {
                 <DataTable.Cell style={Table.oldTime} textStyle={[Typography.white]}>
                     <Text style={Typography.crossedOut}>{formatDate(delay.AdvertisedTimeAtLocation)}</Text>
                 </DataTable.Cell>
-                <DataTable.Cell style={Table.delayStationName} textStyle={[Typography.header4, Typography.center, Typography.white]}>
+                <DataTable.Cell style={Table.delayStationName} textStyle={[Typography.header4, Typography.white]}>
                     {delay.stationName}
                 </DataTable.Cell>
             </DataTable.Row>
@@ -31,7 +27,7 @@ export default function DelaysList({ route, navigation }) {
                 <DataTable.Cell style={Table.newTime} textStyle={[]}>
                     <Text style={Typography.header4Bold}>{formatDate(delay.EstimatedTimeAtLocation)}</Text>
                 </DataTable.Cell>
-                <DataTable.Cell style={Table.newTimeEmpty} textStyle={[Typography.list, Typography.center, Typography.white]}></DataTable.Cell>
+                <DataTable.Cell style={Table.newTimeEmpty} textStyle={[Typography.list, Typography.white]}> </DataTable.Cell>
             </DataTable.Row>
         </View>
         );

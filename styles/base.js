@@ -45,7 +45,6 @@ export const mapButton = {
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 4,
-    // elevation: 3,
     backgroundColor: '#1F1F1F',
     marginHorizontal: '15%',
     marginTop: 20,
@@ -55,7 +54,6 @@ export const mapButton = {
 export const bottomNavBar = {
     backgroundColor: '#1F1F1F',
     height: 65,
-    // paddingTop: 8, 
     marginBottom: 20,
 };
 

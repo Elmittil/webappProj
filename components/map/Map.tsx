@@ -4,12 +4,7 @@ import { Base, Typography } from "../../styles";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import getCoordinates from "../../models/nominatim";
 import { formatDate } from '../helpers/formatters';
-import delaysModel from "../../models/delays";
-
-
-
 
 
 export default function DelaysMap({ route }) {

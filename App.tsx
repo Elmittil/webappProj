@@ -103,7 +103,7 @@ export default function App() {
 
                 </Tab.Navigator>
             </NavigationContainer>
-            <StatusBar style="auto" />
+            {/* <StatusBar style="auto" /> */}
             <FlashMessage position="top" />
         </SafeAreaView>
     );

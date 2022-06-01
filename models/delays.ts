@@ -1,7 +1,3 @@
-// models/delays.ts
-
-import config from "../config/config.json";
-
 
 const delays = {
     getStations: function getStations(allStations, allDelays) {

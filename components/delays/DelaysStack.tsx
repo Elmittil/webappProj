@@ -1,10 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { Stations } from './StationsList';
 import DelaysList from './DelaysList';
 import Map from '../map/Map';
-
-import { Base, Typography } from '../../styles';
 
 
 const Stack = createNativeStackNavigator();
