@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Text, ScrollView, Pressable } from "react-native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Favourites from '../mypage/Favourites';
 import authModel from "../../models/auth";
 import { Base, Typography } from '../../styles';
@@ -8,8 +7,6 @@ import { Base, Typography } from '../../styles';
 export default function Mypage({ navigation, isLoggedIn, setIsLoggedIn, stations, delays, setFavourites, favourites }) {    
     useEffect(() => {
         (async () => {
-            // const favouritesFetch = await authModel.getFavouriteStations();
-            // setFavourites(favouritesFetch);
             await updateFavourites(isLoggedIn);
         })();
         
@@ -17,7 +14,6 @@ export default function Mypage({ navigation, isLoggedIn, setIsLoggedIn, stations
 
     async function updateFavourites(isLoggedIn) {
         if (isLoggedIn){
-            console.log("updating effect");
             const favouritesFetch = await authModel.getFavouriteStations();
             setFavourites(favouritesFetch);
         };
@@ -25,7 +21,7 @@ export default function Mypage({ navigation, isLoggedIn, setIsLoggedIn, stations
     
     return (
         <ScrollView style={[Base.container, Base.contentBox]}>
-            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stations} setFavourites={setFavourites} favourites={favourites} />
+            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stations} setFavourites={setFavourites} favourites={favourites} withDelaysCount={true} />
             <Pressable
                     style={Base.greyButton}
                     onPress={() => {
@@ -36,7 +32,6 @@ export default function Mypage({ navigation, isLoggedIn, setIsLoggedIn, stations
                     }}
                     accessibilityLabel={`Log out`}
                     >
-
                     <Text style={Typography.buttonText}>Log out</Text>
                 </Pressable>
         </ScrollView>

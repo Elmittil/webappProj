@@ -20,15 +20,12 @@ export function Stations({ route, navigation, isLoggedIn, stations, setStations,
     async function updateFavourites(isLoggedIn) {
         console.log(isLoggedIn);
         if (isLoggedIn) {
-            // console.log("updating effect");
             const favouritesFetch = await AuthModel.getFavouriteStations();
             if (favourites.stations.length !== favouritesFetch.stations.length) {
                 setFavourites(favouritesFetch);
             }
         }
-        // else {
-        //     setFavourites([]);
-        // }
+
     }
 
     let stationsWithDelays = delaysModel.getStations(stations, delays);
@@ -37,7 +34,7 @@ export function Stations({ route, navigation, isLoggedIn, stations, setStations,
 
     return (
         <ScrollView style={[Base.container, Base.contentBox]}>
-            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} />
+            <Favourites navigation={navigation} isLoggedIn={isLoggedIn} delays={delays} stations={stationsWithDelays} favourites={favourites} setFavourites={setFavourites} withDelaysCount={false}/>
             <Text style={[Typography.header3, Typography.white, Typography.doubleSpaceTop]}>Relevant Stations</Text>
             <DataTable style={{ padding: 0 }}>
                 {list}

@@ -10,9 +10,7 @@ import { Table } from '../../styles';
 import { showMessage } from 'react-native-flash-message';
 
 
-
-
-export function createListOfStations(stationsWithDelays, navigation, stations, delays, isLoggedIn, favourites, setFavourites) {
+export function createListOfStations(stationsWithDelays, navigation, stations, delays, isLoggedIn, favourites, setFavourites, withDelaysCount = false) {
     if (stationsWithDelays === undefined) {
         return <Text style={[Typography.list, Typography.white]}>Login to see your favourite stations</Text>
     }
@@ -33,6 +31,11 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
                 color: "#FFD500"
             };
         }
+        let nrOfDelayedTrains = "0 trains";
+
+        if (withDelaysCount) {   
+            nrOfDelayedTrains = `${delaysForThisStation.length} delays`;
+        }
         return (<View key={index}>
             <DataTable.Row >
                 <DataTable.Cell style={Table.stationName} textStyle={[Typography.tablePrice, Typography.white]}>
@@ -48,17 +51,21 @@ export function createListOfStations(stationsWithDelays, navigation, stations, d
                         }}
                     >
                         <Text style={[Typography.list, Typography.white]}>{station.AdvertisedLocationName}</Text>
+                        {withDelaysCount ? 
+                        <Text style={[Typography.list, Table.extraInfo]}>{nrOfDelayedTrains}</Text>
+                        :
+                        <View/>
+                        }
                     </Pressable>
                 </DataTable.Cell>
                 <DataTable.Cell style={{ flex: 1 }} textStyle={[Typography.header4, Typography.center, Typography.white]}>
                     <Pressable
                         onPress={async () => {
                             changeFavouritesStatus(station.LocationSignature, isLoggedIn, favourites, setFavourites);
-                            // let updatedFavourites = await authModel.getFavouriteStations()
+
                             if (isLoggedIn) {
                                 setFavourites(await authModel.getFavouriteStations());
                             }
-                            // console.log(favourites[0]);
                         }}>
                         <Ionicons
                             style={{ margin: 0 }}

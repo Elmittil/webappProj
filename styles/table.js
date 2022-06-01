@@ -41,3 +41,8 @@ export const bottomBorder = {
     borderBottomColor: "#323232", 
     borderBottomWidth: 1 
 }
+
+export const extraInfo = {
+    marginTop: 0,
+    fontSize: 12,
+}

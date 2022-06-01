@@ -19,7 +19,6 @@ export default function Register({ navigation }) {
                 }
                 return;
             }
-            console.log(result.data.message);
             if (result.data.message === 'User successfully registered.') {
                 navigation.navigate("Login");
                 showMessage(result.message);
